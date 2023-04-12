@@ -1,15 +1,17 @@
 import logo from "./logo.png";
 import "./App.css";
 import React from "react";
-import AddProduct from "./Components/AddProduct";
 import SingleProduct from "./Components/SingleProduct";
 import axios from "axios";
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { useAuth0 } from "@auth0/auth0-react";
 
 export default function App() {
   const [openSingle, setOpenSingle] = useState(false);
   const [products, setProducts] = useState([]);
   const [currentId, setCurrentId] = useState("");
+  const { loginWithRedirect } = useAuth0();
 
   const getInitialData = async () => {
     let initialAPICall = await axios.get(
@@ -26,20 +28,6 @@ export default function App() {
   const toggleView = (product) => {
     setOpenSingle(!openSingle);
     setCurrentId(product.id);
-  };
-
-  const createNewProduct = async (name, price) => {
-    let product = {
-      name,
-      price,
-    };
-    let response = await axios.post(
-      `${process.env.REACT_APP_API_SERVER}/products`,
-      product
-    );
-    let newArray = [...products];
-    newArray.push(response.data);
-    setProducts(newArray);
   };
 
   return (
@@ -70,7 +58,10 @@ export default function App() {
                 <p>Failure</p>
               )}
             </div>
-            <AddProduct addProduct={createNewProduct} />
+            <button>
+              <Link to="/form">Add product</Link>
+            </button>
+            <button onClick={() => loginWithRedirect()}>Log In</button>
           </div>
         )}
       </header>
