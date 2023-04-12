@@ -1,7 +1,8 @@
 class ProductsRouter {
-  constructor(express, controller) {
+  constructor(express, controller, checkJwt) {
     this.express = express;
     this.controller = controller;
+    this.checkJwt = checkJwt;
   }
 
   routes() {
@@ -9,7 +10,11 @@ class ProductsRouter {
 
     router.get("/", this.controller.getAll.bind(this.controller));
     router.get("/:productId", this.controller.getOne.bind(this.controller));
-    router.post("/", this.controller.insertOne.bind(this.controller));
+    router.post(
+      "/",
+      this.checkJwt,
+      this.controller.insertOne.bind(this.controller)
+    );
     return router;
   }
 }

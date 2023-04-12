@@ -5,8 +5,9 @@ class ProductsController extends BaseController {
     super(model);
   }
 
-  async insertOne(req, res) {
+  insertOne = async (req, res) => {
     const { name, price } = req.body;
+    console.log("Reached controller");
     try {
       const newProduct = await this.model.create({
         updated_at: new Date(),
@@ -18,9 +19,9 @@ class ProductsController extends BaseController {
     } catch (err) {
       return res.status(400).json({ error: true, msg: err });
     }
-  }
+  };
 
-  async getOne(req, res) {
+  getOne = async (req, res) => {
     const id = req.params.productId;
     try {
       const output = await this.model.findByPk(id);
@@ -29,7 +30,7 @@ class ProductsController extends BaseController {
       console.log(err);
       return res.status(400).json({ error: true, msg: err });
     }
-  }
+  };
 }
 
 module.exports = ProductsController;

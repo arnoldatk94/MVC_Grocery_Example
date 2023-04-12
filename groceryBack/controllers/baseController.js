@@ -3,8 +3,8 @@ class BaseController {
     this.model = model;
   }
 
-  async getAll(req, res) {
-    console.log(this.model);
+  getAll = async (req, res) => {
+    // console.log(this.model);
     try {
       const output = await this.model.findAll();
       return res.json(output);
@@ -12,7 +12,7 @@ class BaseController {
       console.log(err);
       return res.status(400).json({ error: true, msg: err });
     }
-  }
+  };
 }
 
 module.exports = BaseController;
